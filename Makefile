@@ -36,8 +36,8 @@ clean:
 	rm -rf env
 	find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 
-dev: env
-	. env/bin/activate; FLASK_ENV=development FLASK_APP=$(APP) FLASK_DEBUG=1 flask run --port=$(PORT) --host=0.0.0.0
+dev: 
+	FLASK_ENV=development FLASK_APP=$(APP) FLASK_DEBUG=1 flask run --port=$(PORT) --host=0.0.0.0
 
 requirements.txt: requirements.in
 	pip-compile requirements.in > requirements.txt
@@ -53,11 +53,12 @@ frontend: env
 	cp -r frontend/dist/static redisolar/static
 	cp frontend/dist/index.html redisolar/static/
 
-load: env
-	. env/bin/activate; FLASK_APP=$(APP) flask load
+load: 
+	FLASK_APP=$(APP) flask load
 
 timeseries-docker:
 	docker run -p 6379:6379 -it -d --rm redislabs/redistimeseries
 
 timeseries-podman:
 	podman run -p 6379:6379 -it -d --rm redislabs/redistimeseries
+
